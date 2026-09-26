@@ -178,6 +178,6 @@ Uses the winning variant (`hybrid_reranked`) for retrieval, then generates a cit
 
 ## 11. Links
 
-- GitHub repository: <>
+- GitHub repository: https://github.com/saurabhkamal/Hybrid-Search-RRF-Reranking-System
 - YouTube walkthrough: coming soon
 - Connect on LinkedIn: https://www.linkedin.com/in/saurabh-kamal/
