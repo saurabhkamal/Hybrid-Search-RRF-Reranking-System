@@ -1,0 +1,27 @@
+{
+  "enhancing-cross-border-payments-building-blocks-global-roadmap.pdf": {
+    "title": "Enhancing Cross-Border Payments: Building Blocks of a Global Roadmap",
+    "publisher": "CPMI / FSB",
+    "doc_type": "roadmap report"
+  },
+  "Payment-methods-guide.pdf": {
+    "title": "A Guide to Payment Methods",
+    "publisher": "Stripe",
+    "doc_type": "guide"
+  },
+  "payment-services-electronic-money-approach.pdf": {
+    "title": "Approach to Payment Services and Electronic Money",
+    "publisher": "FCA",
+    "doc_type": "regulatory approach document"
+  },
+  "PCIDSS_QRGv3.pdf": {
+    "title": "PCI DSS Quick Reference Guide (version 3.0)",
+    "publisher": "PCI Security Standards Council",
+    "doc_type": "quick reference guide"
+  },
+  "principles-financial-market-infrastructures.pdf": {
+    "title": "Principles for Financial Market Infrastructures",
+    "publisher": "CPMI-IOSCO",
+    "doc_type": "principles / standards document"
+  }
+}
