@@ -30,6 +30,14 @@ Combining the two, then reranking the combination, is a common claim in RAG syst
 
 ```mermaid
 flowchart TD
+    subgraph ING [" Ingestion — run once via rag/ingest.py "]
+        direction LR
+        PDF["5 Source PDFs<br/>data/*.pdf"] --> CHUNK["Chunking<br/>1500 chars · 200 overlap"]
+        CHUNK --> EMB["Embedding Model<br/>batches of 100"]
+        EMB --> QVEC[("Qdrant<br/>Dense Vectors")]
+        CHUNK --> BM25IDX[("BM25 Index<br/>bm25_index.pkl")]
+    end
+
     Q(["User Query"])
 
     subgraph RET [" Independent Retrieval "]
@@ -38,22 +46,27 @@ flowchart TD
         S["Sparse Retriever<br/>BM25 · Keyword Matching"]
     end
 
+    QVEC -.searched by.-> D
+    BM25IDX -.searched by.-> S
+
     Q --> D
     Q --> S
 
     D --> F["Reciprocal Rank Fusion<br/>score = 1 / (k + rank)"]
     S --> F
 
-    F --> RR["LLM Reranker<br/>Cross-Encoder Prompt via EURI"]
+    F --> RR["LLM Reranker<br/>Prompt-based Relevance Scoring (0-10)"]
 
     RR --> G["Answer Generation<br/>Cited Response"]
 
+    classDef ingest fill:#F3F0FB,stroke:#6B4FA0,stroke-width:2px,color:#3D2C63
     classDef query fill:#FDF3E7,stroke:#C6802B,stroke-width:2px,color:#6B4415
     classDef retrieval fill:#EAF2FB,stroke:#1F5FA8,stroke-width:2px,color:#12335C
     classDef fusion fill:#EEF7EC,stroke:#2F8A3E,stroke-width:2px,color:#1B5A26
     classDef rerank fill:#F7EAF5,stroke:#8E3B93,stroke-width:2px,color:#5C2660
     classDef answer fill:#FDF3E7,stroke:#C6802B,stroke-width:2px,color:#6B4415
 
+    class PDF,CHUNK,EMB,QVEC,BM25IDX ingest
     class Q query
     class D,S retrieval
     class F fusion
@@ -61,7 +74,9 @@ flowchart TD
     class G answer
 ```
 
-Dense and sparse retrieval run **independently** — neither sees the other's results. Fusion and reranking are separate, sequential steps: RRF combines by rank position alone, then the reranker re-judges the fused shortlist by actually reading each chunk against the query.
+**Ingestion** (top): the five source PDFs are chunked, embedded, and written into two parallel indexes — Qdrant for dense vectors and a pickled BM25 index for sparse search — sharing the same chunk IDs across both.
+
+**Query time** (bottom): dense and sparse retrieval run **independently** — neither sees the other's results. Fusion and reranking are separate, sequential steps: RRF combines by rank position alone, then the reranker re-judges the fused shortlist by actually reading each chunk against the query.
 
 ## 5. Final Results
 
