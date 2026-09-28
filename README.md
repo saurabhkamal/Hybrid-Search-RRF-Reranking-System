@@ -194,5 +194,5 @@ Uses the winning variant (`hybrid_reranked`) for retrieval, then generates a cit
 ## 11. Links
 
 - GitHub repository: https://github.com/saurabhkamal/Hybrid-Search-RRF-Reranking-System
-- YouTube walkthrough: coming soon
+- YouTube walkthrough: https://www.youtube.com/watch?v=W_TmnscEupQ&t=34s
 - Connect on LinkedIn: https://www.linkedin.com/in/saurabh-kamal/
